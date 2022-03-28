@@ -12,7 +12,7 @@ Since Martinez retired back in 2004, however, the spot has been passed around mo
 
 ![Edgar-Martinez-1997](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Edgar_Martinez_1997.jpg/430px-Edgar_Martinez_1997.jpg?20131021232111)
 
-[Photo from Wikimedia Commons][Edgar-Martinez]
+[^1]
 
 Baseball-reference.com lists several players in the DH position for the 2021 season.  I probably remember Mitch Haniger in the position the most, but I also remember at least a few Haniger plays in the outfield.
 
@@ -100,4 +100,5 @@ So that should be helpful.  Next time, I'm going to start delving into those box
 
 [stats-api]: https://github.com/toddrob99/MLB-StatsAPI
 [Edgar-Martinez]:   https://commons.wikimedia.org/wiki/File:Edgar_Martinez_1997.jpg
+[^1]: [Photo from Wikimedia Commons][Edgar-Martinez].
 
