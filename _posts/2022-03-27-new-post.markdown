@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "This is a test post!"
+title:  "MLB-Stats API"
 date:   2022-03-27 20:5:00 -0700
 categories: New
 ---
@@ -16,7 +16,7 @@ So how are we going go about to analyzing this in Python?
 
 I started browsing through the MLB-StatsAPI wiki to see what options were available.  What I want is to be able to get per game hitting statistics alongside the position each player played in that game.  So the first thing that caught my eye are the boxscore() and boxscore_data() methods.  
 
-boxscore_data() is what we want because boxscore() provides formatted text.  In order to use boxscore_data(), we need a gamePk.  That means nothing to me, but I assume it is a game identifier.  So I turn to the schedule() method.  This has what we want.  schedule() returns a list containing a dictionary inside of which is a key for game_id which the wiki also saysi is a gamePk.  Great.  Now I just need to be able to get that to work.  
+boxscore_data() is what we want because boxscore() provides formatted text.  In order to use boxscore_data(), we need a gamePk.  That means nothing to me, but I assume it is a game identifier.  So I turn to the schedule() method.  This has what we want.  schedule() returns a list containing a dictionary inside of which is a key for game_id which the wiki also says is a gamePk.  Great.  Now I just need to be able to get that to work.  
 
 It looks like all of the parameters for schedule() are pre-assigned, but many are essentially blank.  For example the "team" parameter is set to an empty string.  But I figured I can just give this a shot and see what comes up.
 
@@ -41,24 +41,26 @@ I went back to the wiki.  It turns out that there is a handy little method calle
 
 So I tried this:
 
+{% highlight python %}
 print(statsapi.lookup_team("mariners"))
+{% endhighlight %}
 
 and the output was a nice, manageable dictionary inside a list:
 
 {% highlight python %}
-    [{'id': 136, 'name': 'Seattle Mariners', 'teamCode': 'sea', 'fileCode': 'sea', 'teamName': 'Mariners', 'locationName': 'Seattle', 'shortName': 'Seattle'}]
+[{'id': 136, 'name': 'Seattle Mariners', 'teamCode': 'sea', 'fileCode': 'sea', 'teamName': 'Mariners', 'locationName': 'Seattle', 'shortName': 'Seattle'}]
 {% endhighlight %}
 
 Great.  The 'id' we're looking for is 136.  With this, we can write:
 
 {% highlight python %}
-    print(statsapi.schedule(team=136, date='09/06/1999'))
+print(statsapi.schedule(team=136, date='09/06/1999'))
 {% endhighlight %}
 
 And the tragic output is as follows:
 
 {% highlight python %}
-    [{'game_id': 835, 'game_datetime': '1999-09-06T20:35:00Z', 'game_date': '1999-09-06', 'game_type': 'R', 'status': 'Final', 'away_name': 'Boston Red Sox', 'home_name': 'Seattle Mariners', 'away_id': 111, 'home_id': 136, 'doubleheader': 'N', 'game_num': 1, 'home_probable_pitcher': '', 'away_probable_pitcher': '', 'home_pitcher_note': '', 'away_pitcher_note': '', 'away_score': 3, 'home_score': 2, 'current_inning': 9, 'inning_state': 'Bottom', 'venue_id': 680, 'venue_name': 'Safeco Field', 'winning_team': 'Boston Red Sox', 'losing_team': 'Seattle Mariners', 'winning_pitcher': 'Bryce Florie', 'losing_pitcher': 'John Halama', 'save_pitcher': 'Derek Lowe', 'summary': '1999-09-06 - Boston Red Sox (3) @ Seattle Mariners (2) (Final)'}]
+[{'game_id': 835, 'game_datetime': '1999-09-06T20:35:00Z', 'game_date': '1999-09-06', 'game_type': 'R', 'status': 'Final', 'away_name': 'Boston Red Sox', 'home_name': 'Seattle Mariners', 'away_id': 111, 'home_id': 136, 'doubleheader': 'N', 'game_num': 1, 'home_probable_pitcher': '', 'away_probable_pitcher': '', 'home_pitcher_note': '', 'away_pitcher_note': '', 'away_score': 3, 'home_score': 2, 'current_inning': 9, 'inning_state': 'Bottom', 'venue_id': 680, 'venue_name': 'Safeco Field', 'winning_team': 'Boston Red Sox', 'losing_team': 'Seattle Mariners', 'winning_pitcher': 'Bryce Florie', 'losing_pitcher': 'John Halama', 'save_pitcher': 'Derek Lowe', 'summary': '1999-09-06 - Boston Red Sox (3) @ Seattle Mariners (2) (Final)'}]
 {% endhighlight %}
 
 I say this is tragic because the Mariners traded Derek Lowe, the "save_pitcher" to the Red Sox alongside Jason Veritek for a guy named Heathcliff Slocumb.  You may remember Lowe and Veritek from the all-star game and Slocumb from basically nowhere.
@@ -66,18 +68,18 @@ I say this is tragic because the Mariners traded Derek Lowe, the "save_pitcher" 
 This is great.  I can retrieve team id numbers and get basic game data with those numbers. To speed things up in the future, I decided to create a dictionary containing all of the team names and id numbers.  So here's what I wrote:
 
 {% highlight python %}
-    def team_id_list(team_list):
-        team_ids = []
-        team_name = {}
-        for team in team_list:
-            json_ = statsapi.lookup_team(team)
-            id = json_[0]['id']
-            name = json_[0]['name']
-            team_ids.append(id)
-            team_name[id] = name
-        return team_ids, team_name
+def team_id_list(team_list):
+    team_ids = []
+    team_name = {}
+    for team in team_list:
+        json_ = statsapi.lookup_team(team)
+        id = json_[0]['id']
+        name = json_[0]['name']
+        team_ids.append(id)
+        team_name[id] = name
+    return team_ids, team_name
 
-    print(team_id_list(team_list))
+print(team_id_list(team_list))
 {% endhighlight %}
 
 For the team_list I just wrote a python list with all of the team names as strings.  The lookup_team() method seems to be pretty lenient as well.  I capitalized none of the names and never used a city name.  I did get an error at first, but that is apparently because Cleveland renamed themselves from the Indians to the Guardians.
@@ -85,21 +87,9 @@ For the team_list I just wrote a python list with all of the team names as strin
 Here's the output:
 
 {% highlight python %}
-    [145, 112, 114, 116, 113, 158, 118, 134, 142, 138, 110, 111, 147, 139, 141, 144, 146, 121, 143, 120, 117, 108, 133, 136, 140, 109, 115, 119, 135, 137]
+[145, 112, 114, 116, 113, 158, 118, 134, 142, 138, 110, 111, 147, 139, 141, 144, 146, 121, 143, 120, 117, 108, 133, 136, 140, 109, 115, 119, 135, 137]
 
-    {145: 'Chicago White Sox', 112: 'Chicago Cubs', 114: 'Cleveland Guardians', 116: 'Detroit Tigers', 113: 'Cincinnati Reds', 158: 'Milwaukee Brewers', 118: 'Kansas City Royals', 134: 'Pittsburgh Pirates', 142: 'Minnesota Twins', 138: 'St. Louis Cardinals', 110: 'Baltimore Orioles', 111: 'Boston Red Sox', 147: 'New York Yankees', 139: 'Tampa Bay Rays', 141: 'Toronto Blue Jays', 144: 'Atlanta Braves', 146: 'Miami Marlins', 121: 'New York Mets', 143: 'Philadelphia Phillies', 120: 'Washington Nationals', 117: 'Houston Astros', 108: 'Los Angeles Angels', 133: 'Oakland Athletics', 136: 'Seattle Mariners', 140: 'Texas Rangers', 109: 'Arizona Diamondbacks', 115: 'Colorado Rockies', 119: 'Los Angeles Dodgers', 135: 'San Diego Padres', 137: 'San Francisco Giants'})
+{145: 'Chicago White Sox', 112: 'Chicago Cubs', 114: 'Cleveland Guardians', 116: 'Detroit Tigers', 113: 'Cincinnati Reds', 158: 'Milwaukee Brewers', 118: 'Kansas City Royals', 134: 'Pittsburgh Pirates', 142: 'Minnesota Twins', 138: 'St. Louis Cardinals', 110: 'Baltimore Orioles', 111: 'Boston Red Sox', 147: 'New York Yankees', 139: 'Tampa Bay Rays', 141: 'Toronto Blue Jays', 144: 'Atlanta Braves', 146: 'Miami Marlins', 121: 'New York Mets', 143: 'Philadelphia Phillies', 120: 'Washington Nationals', 117: 'Houston Astros', 108: 'Los Angeles Angels', 133: 'Oakland Athletics', 136: 'Seattle Mariners', 140: 'Texas Rangers', 109: 'Arizona Diamondbacks', 115: 'Colorado Rockies', 119: 'Los Angeles Dodgers', 135: 'San Diego Padres', 137: 'San Francisco Giants'})
 {% endhighlight %}
 
 So that should be helpful.  Next time, I'm going to start delving into those boxscores.
-
-{% highlight python %}
-def print_hi(name)
-  puts "Hi, #{name}"
-
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
-
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
-
-[stats-api]: https://github.com/toddrob99/MLB-StatsAPI
