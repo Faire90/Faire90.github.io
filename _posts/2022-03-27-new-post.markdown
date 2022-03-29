@@ -11,8 +11,7 @@ I'm a bit of a baseball fan and with the recent end of the lockout, I thought it
 Since Martinez retired back in 2004, however, the spot has been passed around more regularly.  So I thought one thing we can look at is how different Mariner's players have hit at the DH position versus how they hit when playing in the field.
 
 ![Edgar-Martinez-1997](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Edgar_Martinez_1997.jpg/430px-Edgar_Martinez_1997.jpg?20131021232111)
-
-Edgar Martinez in 1997[^1]
+*Edgar Martinez in 1997[^1]*
 
 Baseball-reference.com lists several players in the DH position for the 2021 season.  I probably remember Mitch Haniger in the position the most, but I also remember at least a few Haniger plays in the outfield.
 
@@ -36,7 +35,7 @@ I would provide the output, but it is super long.  It contains exactly what it s
 I'd like to narrow this down to a single team, so I tried this:
 
 {% highlight python %}
-   print(statsapi.schedule(team="mariners", date='09/06/1999'))
+print(statsapi.schedule(team="mariners", date='09/06/1999'))
 {% endhighlight %}
 
 The output for this one was an error.  Turns out "mariners" doesn't count as a team.  To be fair, the wiki does make this clear; it needs a number for team.  I just thought I would check.
