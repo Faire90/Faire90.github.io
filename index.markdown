@@ -4,3 +4,8 @@
 
 layout: home
 ---
+
+Welcome to my website/blog!  You can visit the about page [here][about-page] or from the top of the page.
+
+
+[about-page]: https://faire90.github.io/about/
