@@ -10,6 +10,11 @@ $text-color: #e6e6e6;
 $grey-color-light: #565656;
 $grey-color-dark: #adadad;
 
+pre,
+code {
+    background-color: #565656;
+}
+
 @import "minima";
 
 /* END OF MAIN.CSS */
