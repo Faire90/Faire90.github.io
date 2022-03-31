@@ -10,9 +10,14 @@ $text-color: #e6e6e6;
 $grey-color-light: #565656;
 $grey-color-dark: #adadad;
 
-pre,
-code {
-    background-color: #565656;
+div.content pre {
+ background: #d42525;
+ padding: 10px;
+ color: rgb(20, 199, 29);
+ overflow-x: auto;
+ font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+ font-size: 12px;
+ border: none;
 }
 
 @import "minima";
