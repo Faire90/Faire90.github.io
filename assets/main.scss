@@ -10,14 +10,8 @@ $text-color: #e6e6e6;
 $grey-color-light: #565656;
 $grey-color-dark: #adadad;
 
-div.content code {
- background: #d42525;
- padding: 10px;
- color: rgb(20, 199, 29);
- overflow-x: auto;
- font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
- font-size: 12px;
- border: none;
+code {
+$text-color: #000000
 }
 
 @import "minima";
