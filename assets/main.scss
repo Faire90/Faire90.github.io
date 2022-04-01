@@ -5,6 +5,8 @@
  * the dashed lines above are required
  */
 
+@import "minima";
+
 $background-color: #1d1d1d; /* a dark, off-black for the bg */
 $text-color: #e6e6e6; /* an off-white for the text */
 $grey-color-light: #565656; /* for the border-top separators */
@@ -26,6 +28,6 @@ pre {
   }
 }
 
-@import "minima";
+
 
 /* END OF MAIN.CSS */
