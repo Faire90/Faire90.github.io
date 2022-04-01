@@ -10,8 +10,6 @@ $text-color: #e6e6e6; /* an off-white for the text */
 $grey-color-light: #565656; /* for the border-top separators */
 $grey-color-dark: #adadad; /* such as the site title in the header, visited */
 
-@import "minima";
-
 pre {
   padding:8px 15px;
   background: #191919;
@@ -23,9 +21,9 @@ pre {
 
   code {
     color: #000000;
-    margin: 0;
-    padding: 0;
   }
 }
+
+@import "minima";
 
 /* END OF MAIN.CSS */
