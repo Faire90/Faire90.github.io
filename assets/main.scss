@@ -5,28 +5,15 @@
  * the dashed lines above are required
  */
 
-@import "minima";
+
 
 $background-color: #1d1d1d; /* a dark, off-black for the bg */
 $text-color: #e6e6e6; /* an off-white for the text */
 $grey-color-light: #565656; /* for the border-top separators */
 $grey-color-dark: #adadad; /* such as the site title in the header, visited */
+$code-background-color: #000000;
 
-pre {
-  padding:8px 15px;
-  background: #191919;
-  border-radius: 2px;
-  border:1px solid #121212;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,.3);
-  overflow: auto;
-  overflow-y: hidden;
-
-  code {
-    color: #000000;
-    margin: 0;
-    padding: 0;
-  }
-}
+@import "minima";
 
 
 
