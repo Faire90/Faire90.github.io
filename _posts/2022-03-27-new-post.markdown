@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "MLB-Stats API"
+title:  "DH Stats Part 1"
 date:   2022-03-27 20:5:00 -0700
 categories: New
 ---
